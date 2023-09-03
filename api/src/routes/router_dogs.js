@@ -1,13 +1,17 @@
 const { Router } = require("express");
-const { getDogs, getDogsById, postDog, getBreedsFilteredByTemp } = require("../handlers/handlersDogs");
+const getDogs = require("../handlers/getAllHandler");
+const postDog = require('../handlers/createHandler');
+const getDogsById = require ('../handlers/getByIdHandler');
+const deleteDog = require ('../handlers/deleteHandler');
 
 const routerDog = Router();
 
 
-routerDog.get("/", getDogs);//todas las razas
 routerDog.get("/:id", getDogsById); //busca x id
+routerDog.get("/", getDogs);//todas las razas x name
 routerDog.post("/", postDog); //crea
-routerDog.put("/", getBreedsFilteredByTemp); //modifica
+routerDog.delete("/:id", deleteDog); // elimina
+// routerDog.put("/", getBreedsFilteredByTemp); //modifica
 
 
 module.exports = routerDog;

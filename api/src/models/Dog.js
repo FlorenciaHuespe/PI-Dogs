@@ -4,7 +4,7 @@ const { DataTypes } = require("sequelize");
 module.exports = (sequelize) => {
   // defino el modelo
   return sequelize.define(
-    "dog",
+    "Dog",
     {
       id: {
         type: DataTypes.UUID, // alfanumerico
@@ -14,11 +14,12 @@ module.exports = (sequelize) => {
       },
       image: {
         type: DataTypes.TEXT,
-        allowNull: false,
+        allowNull: false, //debe estar
       },
       name: {
         type: DataTypes.STRING,
         allowNull: false,
+        unique: true,
       },
       minHeight: {
         type: DataTypes.INTEGER,
@@ -58,7 +59,7 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING,
         allowNull: true,
       },
-      db: {
+      db: { //true BD
         type: DataTypes.BOOLEAN,
         defaultValue: true,
         allowNull: false,

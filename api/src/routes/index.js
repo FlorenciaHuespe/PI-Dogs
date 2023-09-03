@@ -6,7 +6,6 @@ require("dotenv").config();
 const dogsRoutes = require('./router_dogs');
 const temperamentsRoutes = require('./router_temperaments');
 
-
 const router = Router();
 
 // Configurar los routers

@@ -19,7 +19,7 @@ function validateDogCreationFields({
       !name ||
       !image
     ) {
-      throw new Error("You must fill in all the required information");
+      throw new Error("Debe completar toda la información requerida");
     } else if (
       minHeight <= 0 ||
       maxHeight <= 0 ||
@@ -28,18 +28,18 @@ function validateDogCreationFields({
       minLifeSpan <= 0 ||
       maxLifeSpan <= 0
     ) {
-      throw new Error("The height, weight or life span value cannot be negative");
+      throw new Error("La altura, el peso o el valor de la vida útil no pueden ser negativos");
     } else if (minHeight >= maxHeight) {
       throw new Error(
-        "The minimum height is greater than or equal to the maximum height, please validate data"
+        "La altura mínima es mayor o igual a la altura máxima, valide los datos"
       );
     } else if (minWeight >= maxWeight) {
       throw new Error(
-        "The minimum weight is greater than or equal to the maximum weight, please validate data"
+        "El peso mínimo es mayor o igual al peso máximo, valide los datos"
       );
     } else if (minLifeSpan >= maxLifeSpan) {
       throw new Error(
-        "The minimum life span is greater than or equal to the maximum weight, please validate data"
+        "La vida útil mínima es mayor o igual al peso máximo, valide los datos"
       );
     }
   }

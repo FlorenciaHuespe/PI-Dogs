@@ -1,5 +1,6 @@
 const { Router } = require("express");
-const {getTemperaments} = require ("../handlers/handlersTemperaments");
+const {getTemperaments} = require ("../handlers/getTemperamentsHandler");
+
 const routerTemperaments = Router();
 
 

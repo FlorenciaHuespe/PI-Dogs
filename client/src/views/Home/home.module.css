@@ -1,0 +1,38 @@
+/* @font-face {
+    font-family:'Times New Roman', Times, serif;
+  }
+  */
+ .containerHome{
+   background-image: url(./img/Home2.jpg);
+   min-height: 100vh; 
+   display: flex;
+   flex-direction: column;
+   font-family:'Times New Roman', Times, serif;
+   background-size:auto;
+ }
+ 
+ .footer {
+    font-family:monospace;
+    font-size: 2em;
+    background-color: #4b5a5d;
+    color: white;
+    padding: 5px;
+    text-align: center;
+    margin-top: 2em;
+ 
+    
+  }
+  .footerImage {
+    position: relative;
+    bottom: 0;
+    left: 0;
+    margin: 5px;
+   }
+ 
+  .imageCheck {
+    width: 1.5em;
+    height: 1.5em;
+    position: absolute;
+    bottom: 10px; 
+    left: 100px; 
+  }

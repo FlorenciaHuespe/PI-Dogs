@@ -1,0 +1,120 @@
+.container {
+    display: flex;
+    justify-content: space-between; /* Distribuye los elementos al principio y al final del contenedor */
+    align-items: center; /* Centra verticalmente los elementos */
+    height: 100vh; /* Usamos la altura de la pantalla completa */
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 0 20px; /* Añade un poco de espacio en los lados para separar del borde de la pantalla */
+    position: relative;
+}
+
+.content {
+    display: flex;
+    flex-direction: column; /* Apila los elementos en columna */
+    align-items: flex-end; /* Alinea los elementos a la derecha */
+  }
+
+.gif {
+    width: 25%; /* Ajusta el ancho del GIF según tus necesidades */
+    height: auto; /* Ajusta la altura automáticamente para mantener la proporción */
+    margin-block-end: 200px;
+  }
+  
+  .image {
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 65%;
+    height: auto; /* Ajusta la altura como desees */
+  }
+  
+  .btn_home {
+    background-color: #2427c9c5;
+    color: #fff;
+    padding: 10px 20px;
+    text-transform: uppercase;
+    letter-spacing: .4em;
+    text-decoration: none;
+    font-size: 20px;
+    font-family:'fantasy, georgia';
+    cursor: pointer;
+    transition: transform 0.4s ease;
+    margin-top: 400px; /* Espacio entre el video y el botón Home */
+    /*display: block;  Para que el botón tome todo el ancho disponible */
+    width: 30%; /* Ancho máximo basado en el contenido */
+    text-align:center; /* Centrar el texto horizontalmente */
+    border-radius: 20px;
+  }
+  .btn_home:hover {
+    color: #8439da;
+    background: #2f8fdd71;
+    box-shadow: 0 0 10px #2f8fddaf,
+                0 0 40px #2f8fddaf,
+                0 0 80px #2f8fddaf;
+    transition-delay: 1s;            
+}
+
+@media screen and (max-width: 700px) {
+  .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center; /* Alinea los elementos al centro horizontalmente */
+    height: 100vh; /* Cambiado a 100vh para ocupar el 100% de la pantalla */
+    background-repeat: no-repeat;
+    background-size: contain;
+    padding: 20px;
+    position: relative;
+  }
+
+  .gif {
+    width: 60%; /* Cambiado a 60% para hacerlo más grande */
+    height: auto;
+    margin-top: 20px; /* Añade espacio en la parte superior */
+    align-self: center; /* Centra el GIF horizontalmente */
+  }
+
+  .image {
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 60%; /* Cambiado a 40% para hacerlo más grande */
+    height: auto;
+  }
+
+  .btn_home {
+    background-color: #2427c9c5;
+    color: #fff;
+    padding: 10px 20px;
+    text-transform: uppercase;
+    letter-spacing: .4em;
+    text-decoration: none;
+    font-size: 15px;
+    font-family: fantasy, georgia; /* Cambiado el formato de la fuente */
+    cursor: pointer;
+    transition: transform 0.4s ease;
+    margin-top: 20px;
+    border-radius: 20px;
+    align-self: center; /* Centra el botón horizontalmente */
+  }
+
+  .btn_home:hover {
+    color: #8439da;
+    background: #2f8fdd71;
+    box-shadow: 0 0 10px #2f8fddaf, 0 0 40px #2f8fddaf, 0 0 80px #2f8fddaf;
+    transition-delay: 1s;
+  }
+}
+
+
+@media screen and (width: 1280px) {
+  .container {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center; 
+    height: 100vh; 
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 0 20px; 
+    position: relative;
+}
+}

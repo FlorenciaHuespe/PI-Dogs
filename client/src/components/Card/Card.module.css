@@ -1,0 +1,119 @@
+.cardContainer{
+ 
+width: fit-content;
+height: 30%;
+background: rgba(146, 243, 237, 0.657);
+padding: .8rem;
+border-radius: 10px;
+border: 2px solid #81C3C9;
+transition: 0.5s ease-out;
+overflow: visible;
+position: relative;
+}
+
+.imageContainer{
+  background-color: rgb(236, 236, 236);
+  width: 100%;
+  height: 60%;
+  border-radius: 6px 6px 0 0;
+}
+
+.imageContainer:hover{
+  transform: scale(0.98);
+}
+
+.image{
+  position: relative;
+  display: block;
+  justify-content: center;
+  align-items: center;
+  width: 20em;
+  height:20em;
+  border-radius: 3px;
+  object-fit:cover;
+  margin: auto;
+}
+
+.weight{
+ background-color: rgba(39, 6, 130, 0.575);
+ color: white;
+ padding: 8px;
+ border-radius: 10px;
+ text-align: center;
+ font-size: 0.9em;
+ font-weight: 100;
+ margin: auto;
+ width: fit-content;
+ height: fit-content;
+ position: relative;
+
+}
+
+.weight:hover{
+  background-color: rgb(63, 121, 230); 
+  font-size: 0.9em;
+
+}
+
+.name {
+  font-family: "PumpOpti";
+  text-transform: uppercase;
+  font-size: 1.2em;
+  font-weight: 600;
+  color: rgb(45, 47, 49);
+  padding: 10px 7px 0;
+  display: flex;
+  justify-content: center;
+  text-decoration: none; /* Quítale el subrayado */
+}
+
+
+.name:hover{
+  color: rgb(38, 92, 192);
+  cursor: pointer;      
+}
+
+.info {
+  font-family: "PumpOpti";
+  font-size: 1em;
+  color: rgb(49, 48, 48);
+  padding: 7px;
+  text-align: center; /* Alineación horizontal */
+  display: flex;
+  justify-content: center; /* Alineación horizontal */
+  align-items: center; /* Alineación vertical */
+}
+
+
+.info:hover{
+      cursor: pointer;
+    
+}
+
+.cardButton{
+font-family: "PumpOpti";
+transform: translate(-50%, 125%);
+width: 60%;
+border-radius: 1rem;
+border: none;
+background-color: #468c96;
+color: #fff;
+font-size: 1rem;
+padding: .5rem 1rem;
+position: absolute;
+left: 50%;
+bottom: 0;
+opacity: 0;
+transition: 0.3s ease-out;
+cursor: pointer;
+}
+
+.cardContainer:hover {
+border-color: #008bf8;
+box-shadow: 0 4px 18px 0 rgba(0, 0, 0, 0.25);
+}
+
+.cardContainer:hover .cardButton {
+transform: translate(-50%, 50%);
+opacity: 1;
+}

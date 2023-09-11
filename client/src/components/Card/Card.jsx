@@ -34,13 +34,9 @@ Card.propTypes = {
   id: PropTypes.number.isRequired,
   image: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  // minHeight: PropTypes.number.isRequired,
-  // maxHeight: PropTypes.number.isRequired,
   minWeight: PropTypes.number.isRequired,
   maxWeight: PropTypes.number.isRequired,
   temperaments: PropTypes.string.isRequired,
-  // minLifeSpan: PropTypes.number.isRequired,
-  // maxLifeSpan: PropTypes.number.isRequired,
 };
 
 export default Card;

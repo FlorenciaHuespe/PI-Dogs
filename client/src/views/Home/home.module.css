@@ -36,3 +36,16 @@
     bottom: 10px; 
     left: 100px; 
   }
+  .page{
+    font-family: "PumpOpti";
+    outline: none;
+    padding: 1em;
+    border: 2px dashed #1595cb;
+    border-radius: 15px;
+    background-color: whitesmoke;
+    box-shadow: 0 0 0 4px rgb(220, 243, 247), 2px 2px 4px 2px rgba(0, 0, 0, 0.5);
+    transition: .1s ease-in-out, .4s color;
+  }
+  .button{
+    background-color:rgb(26, 43, 194) 
+  }

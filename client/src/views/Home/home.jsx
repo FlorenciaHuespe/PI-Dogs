@@ -1,23 +1,52 @@
 import style from "./home.module.css";
 import CardsContainer from "../../components/CardsContainer/CardsContainer";
-import { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getBreeds } from "../../redux/actions";
-
+import { getBreeds, page, orderAlphabetically, orderWeight } from "../../redux/actions";
 
 const Home = () => {
   const dispatch = useDispatch();
+  const allBreeds = useSelector((state) => state.allBreeds); //suscripcion al estado allBreeds por medio del useSelector(hook), ingresa al estado y extrae solo lo que le interesa
+  // console.log(allBreeds);
 
-  const allBreeds = useSelector((state) => state.allBreeds) //suscripcion al estado allBreeds por medio del useSelector(hook), ingresa al estado y extrae solo lo que le interesa
-
-  useEffect(() => { //cuando se monte home, quiero ejectutar el dispatch
+  useEffect(() => {
+    //cuando se monte home, quiero ejectutar el dispatch
     dispatch(getBreeds()); // despacho la function de action
     //dispatch(clear)
-  },[]);
+  }, []);
 
+  const pagination = (e) => {
+    dispatch(page(e.target.name));
+  };
+
+  const filters = (e) => {
+    dispatch(orderAlphabetically(e.target.name));
+  };
+
+  const filtersWeight = (e) => {
+    dispatch(orderWeight(e.target.name));
+  };
 
   return (
     <div className={style.containerHome}>
+      
+      <div className={style.page}>
+        <button name="AZ" onClick={filters}>
+          A-Z
+        </button>
+        <button name="ZA" onClick={filters}>
+          Z-A
+        </button>
+        <button name="weightMin" onClick={filtersWeight}>{"Weight < 50 Kg"}</button>
+        <button name="weightMax" onClick={filtersWeight}>{"Weight > 50 Kg"}</button>
+        <button name="prev" onClick={pagination} className={style.button}>
+          Prev
+        </button>
+        <button name="next" onClick={pagination} className={style.button}>
+          Next
+        </button>
+        
+      </div>
       <CardsContainer info={allBreeds} />
       <footer className={style.footer}>
         <p>

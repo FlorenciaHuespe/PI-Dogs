@@ -1,14 +1,15 @@
 import axios from "axios";
 
-export const GET_BREEDS = "GET_BREEDS";
+export const GET_BREEDS = "GET_BREEDS"; 
 export const GET_BREED_BY_ID = "GET_BREED_BY_ID";
 export const GET_BREEDS_BY_NAME = "GET_BREEDS_BY_NAME";
 export const GET_TEMPERAMENTS = "GET_TEMPERAMENTS";
 export const FILTER_TEMPERAMENTS = "FILTER_TEMPERAMENTS";
-export const ORDER_WEIGHT = "ORDER_WEIGHT";
-export const ORDER_ALP = "ORDER_ALP";
+export const ORDER_WEIGHT = "ORDER_WEIGHT"; //
+export const ORDER_ALP = "ORDER_ALP"; //
 export const FILTER_BY_SOURCE = "FILTER_BY_SOURCE";
 export const CLEAR_STATE = "CLEAR_STATE";
+export const PAGINATE = "PAGINATE"; //
 
 export function postBreed(state) {
   return async function (dispatch) {
@@ -58,44 +59,20 @@ export const getTemperaments = () => {
     }
   };
 };
-// export function getTemperaments() {
-//   return async function (dispatch) {
-//     try {
-//       const APITemperaments = await axios.get("http://localhost:3001/temperaments");
-//       if (APITemperaments.data && Array.isArray(APITemperaments.data)) {
-//         const temperaments = APITemperaments.data
-//           .map((temp) => ({
-//             id: temp.id,
-//             name: temp.name,
-//           }))
-//           .sort((a, b) => a.name.localeCompare(b.name));
-//         console.log("Temperaments from API:", temperaments);
-//         return dispatch({
-//           type: GET_TEMPERAMENTS,
-//           payload: temperaments,
-//         });
-//       } else {
-//         console.log("API response does not contain valid data.");
-//       }
-//     } catch (error) {
-//       console.log("Error fetching temperaments:", error.message);
-//     }
-//   };
-// }
 
 export const filteredTemperaments = (value) => ({
   type: FILTER_TEMPERAMENTS,
   payload: value,
 });
 
-export const orderWeight = (value) => ({
+export const orderWeight = (order) => ({
   type: ORDER_WEIGHT,
-  payload: value,
+  payload: order,
 });
 
-export const orderAlphabetically = (value) => ({
+export const orderAlphabetically = (order) => ({
   type: ORDER_ALP,
-  payload: value,
+  payload: order,
 });
 
 export const filterBySource = (value) => ({
@@ -108,6 +85,15 @@ export const filterBySource = (value) => ({
 export const cleanDetails = () => {
   return { type: CLEAR_STATE };
 };
+
+export function page (order) {
+  return function (dispatch){
+    dispatch({
+      type: PAGINATE,
+      payload: order
+    })
+}
+}
 
 //promesa
 // export const getBreeds = ()=>{

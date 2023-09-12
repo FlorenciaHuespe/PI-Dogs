@@ -1,42 +1,33 @@
 import style from "./Card.module.css";
 import { Link } from "react-router-dom";
-import PropTypes from "prop-types";
+import React from "react";
 
-const Card = (props) => {
+const Card = ({id, name, image, minHeight, maxHeight, minWeight, maxWeight, minLifeSpan, maxLifeSpan, temperaments}) => {
   return (
-    <div className={style.cardContainer}>
+        <div className={style.cardContainer}>
+      <div className={style.name}>
+        <h1>{name}</h1>
+      </div>
       <div className={style.imageContainer}>
-        <Link to={`/detail/${props.id}`}>
-          <img src={props.image} alt="Dog" className={style.image} />
+        <Link to={`/detail/${id}`}>
+          <img src={image} alt="Dog" className={style.image} />
         </Link>
       </div>
-      <Link to={`/detail/${props.id}`}>
-        <div className={style.name}>
-          <h1>{props.name}</h1>
-        </div>
-      </Link>
-        <p className={style.weight}>
-          Weight : {props.minWeight} - {props.maxWeight} kg
-        </p>
+      <p className={style.weight}>
+        Weight: {minWeight} - {maxWeight} kg
+      </p>
       <div className={style.info}>
-      <b>Temperaments :</b>
-        <p>{props.temperaments ? props.temperaments.join(" - ") : ""}</p>
-  
+        <b>Temperaments: </b>
+        <p> 
+          {Array.isArray(temperaments)
+            ? temperaments.join(" - ")
+            : temperaments}
+        </p>
       </div>
-      <Link to={`/detail/${props.id}`}>
+      <Link to={`/detail/${id}`}>
         <button className={style.cardButton}>Más info</button>
       </Link>
     </div>
-  );
-};
-
-Card.propTypes = {
-  id: PropTypes.number.isRequired,
-  image: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  minWeight: PropTypes.number.isRequired,
-  maxWeight: PropTypes.number.isRequired,
-  temperaments: PropTypes.string.isRequired,
-};
-
+  )
+}
 export default Card;

@@ -1,15 +1,16 @@
 import axios from "axios";
 
-export const GET_BREEDS = "GET_BREEDS"; 
-export const GET_BREED_BY_ID = "GET_BREED_BY_ID";
+export const GET_BREEDS = "GET_BREEDS"; //
+export const GET_BREED_BY_ID = "GET_BREED_BY_ID"; //
 export const GET_BREEDS_BY_NAME = "GET_BREEDS_BY_NAME";
 export const GET_TEMPERAMENTS = "GET_TEMPERAMENTS";
 export const FILTER_TEMPERAMENTS = "FILTER_TEMPERAMENTS";
 export const ORDER_WEIGHT = "ORDER_WEIGHT"; //
 export const ORDER_ALP = "ORDER_ALP"; //
 export const FILTER_BY_SOURCE = "FILTER_BY_SOURCE";
-export const CLEAR_STATE = "CLEAR_STATE";
+export const CLEAR_STATE = "CLEAR_STATE"; //
 export const PAGINATE = "PAGINATE"; //
+export const RESET = "RESET"; //
 
 export function postBreed(state) {
   return async function (dispatch) {
@@ -17,7 +18,7 @@ export function postBreed(state) {
       await axios.post("http://localhost:3001/dogs", state);
       alert("Raza creada exitosamente");
     } catch (error) {
-      alert("La raza no se creó, hubo un error");
+      alert(error.response.data.error);
     }
   };
 }
@@ -34,19 +35,34 @@ export const getBreeds = () => {
 
 export const getBreedById = (id) => {
   return async function (dispatch) {
-    const apiData = await axios.get`http://localhost:3001/dogs/${id}`;
-    const breedById = apiData.data;
-    dispatch({ type: GET_BREED_BY_ID, payload: breedById });
+    try {
+      const response = await axios.get(`http://localhost:3001/dogs/${id}`);
+      console.log(response.data); // Agregar esta línea
+      dispatch({
+        type: GET_BREED_BY_ID, 
+        payload: response.data
+      });
+    } catch(error){
+      console.log(error);
+    }
   };
 };
 
 export const getBreedsByName = (name) => {
   return async function (dispatch) {
-    const apiData = await axios.get`http://localhost:3001/dogs?name=${name}`;
-    const breedByName = apiData.data;
-    dispatch({ type: GET_BREEDS_BY_NAME, payload: breedByName });
+    try {
+      if (name.trim() === "") {
+        return;
+      }
+
+      const apiData = await axios.get(`http://localhost:3001/dogs?name=${name}`);
+      const breedByName = apiData.data;
+      dispatch({ type: GET_BREEDS_BY_NAME, payload: breedByName });
+    } catch (error) {
+    }
   };
 };
+
 
 export const getTemperaments = () => {
   return async function (dispatch) {
@@ -85,6 +101,14 @@ export const filterBySource = (value) => ({
 export const cleanDetails = () => {
   return { type: CLEAR_STATE };
 };
+
+export const resetBreeds = () => {
+  return function (dispatch){
+    dispatch({
+      type: RESET,
+    })
+}
+}
 
 export function page (order) {
   return function (dispatch){

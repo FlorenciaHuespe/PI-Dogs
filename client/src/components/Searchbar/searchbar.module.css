@@ -1,0 +1,28 @@
+.input {
+    background: rgba(100, 145, 228, 0.274); 
+    width: 270px;
+    font-size: 25px;
+    font-family: monospace;
+    margin-top: 30px;
+    margin-left: 85px;
+    text-decoration: none;
+    font-weight: 400;
+    letter-spacing: 3px;
+    text-transform: capitalize;
+    transition: all ease-in-out 0.2s;
+    padding: 8px;
+    border-radius: 10px;
+  }
+
+  .input::placeholder {
+    font-size: 20px;
+    color: rgba(255, 246, 246, 0.466);
+  }
+
+  .button {
+    background: #2f659e00;
+    border: none;
+    padding: 8x;
+    font-family: "fontnew2";
+    font-size: 25px;
+  }

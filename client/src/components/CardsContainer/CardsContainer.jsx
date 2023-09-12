@@ -2,24 +2,21 @@ import style from "./Cards.module.css";
 import Card from "../Card/Card";
 import { useSelector } from "react-redux";
 
-// import { paginatedBreeds } from "../../redux/actions";
-// import { useEffect } from "react";
-// import { useState } from "react";
-
-const CardsContainer = () => {
+const CardsContainer = ({info}) => {
   const allBreeds = useSelector((state) => state.allBreeds);
 
   return (
     <div className={style.cardsContainer}>
-      {allBreeds.map((breed) => {
+      {info.map((allBreeds) => {
         return (
           <Card
-            key={breed.id}
-            image={breed.image}
-            name={breed.name}
-            temperaments={breed.temperaments}
-            maxWeight={breed.maxWeight}
-            minWeight={breed.minWeight}
+            key={allBreeds.id}
+            image={allBreeds.image}
+            name={allBreeds.name}
+            temperaments={allBreeds.temperaments}
+            maxWeight={allBreeds.maxWeight}
+            minWeight={allBreeds.minWeight}
+            id={allBreeds.id}
           />
         );
       })}

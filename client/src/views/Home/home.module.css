@@ -1,7 +1,3 @@
-/* @font-face {
-    font-family:'Times New Roman', Times, serif;
-  }
-  */
  .containerHome{
    background-image: url(./img/Home2.jpg);
    min-height: 100vh; 
@@ -22,19 +18,22 @@
  
     
   }
-  .footerImage {
-    position: relative;
-    bottom: 0;
-    left: 0;
-    margin: 5px;
-   }
+  .footer {
+    font-family:monospace;
+    font-size: 2em;
+    background-color: #4b5a5d;
+    color: white;
+    padding: 5px;
+    text-align: center;
+    /* Asegura que el footer se fije al final de la página */
+    margin-top: 2em;
  
-  .imageCheck {
+  }
+ 
+  .imageCheck{
     width: 1.5em;
     height: 1.5em;
-    position: absolute;
-    bottom: 10px; 
-    left: 100px; 
+    margin-left: 0.5em;
   }
   .page{
     font-family: "PumpOpti";

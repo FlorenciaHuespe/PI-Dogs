@@ -9,15 +9,16 @@ import {
   ORDER_ALP,
   ORDER_WEIGHT,
   PAGINATE,
+  RESET,
 } from "./actions";
 
 const initialState = {
-  allBreeds: [], // contiene todas las razas del servidor
+  allBreeds: [], 
   allBreedsBackUp: [],
   breedsFiltered: [],
   filters: false,
-  temperaments: [],
   dogsDetail: {},
+  temperaments: [],
   currentPage: 0,
 };
 
@@ -29,8 +30,8 @@ const rootReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_BREEDS:
       return {
-        ...state, // copia del estado
-        allBreeds: [...action.payload].splice(0, ITEMS_PER_PAGE), // modificando la propiedad que quiero modificar dogs ---> retorna un estado nuevo
+        ...state, 
+        allBreeds: [...action.payload].splice(0, ITEMS_PER_PAGE), 
         allBreedsBackUp: action.payload,
       };
     case GET_BREED_BY_ID:
@@ -56,56 +57,89 @@ const rootReducer = (state = initialState, action) => {
       };
     case ORDER_WEIGHT:
       switch (action.payload) {
-      case "weightMin":
-        let weightMin = [...state.allBreedsBackUp].filter(
-          (b) => b.maxWeight < 50
-        );
-        return {
-          ...state,
-          allBreeds: [...weightMin].splice(0, ITEMS_PER_PAGE),
-          breedsFiltered: weightMin,
-          currentPage: 0,
-          filters:true,
-        };
-      case "weightMax":
-        let weightMax = [...state.allBreedsBackUp].filter(
-          (b) => b.maxWeight >= 50
-        );
-        return {
-          ...state,
-          allBreeds: [...weightMax].splice(0, ITEMS_PER_PAGE),
-          breedsFiltered: weightMax,
-          currentPage: 0,
-          filters:true,
-        };
+        case "weightMin":
+          let weightMin = [...state.allBreedsBackUp].filter(
+            (b) => b.maxWeight < 50
+          );
+          return {
+            ...state,
+            allBreeds: [...weightMin].splice(0, ITEMS_PER_PAGE),
+            breedsFiltered: weightMin,
+            currentPage: 0,
+            filters: true,
+          };
+        case "weightMax":
+          let weightMax = [...state.allBreedsBackUp].filter(
+            (b) => b.maxWeight >= 50
+          );
+          return {
+            ...state,
+            allBreeds: [...weightMax].splice(0, ITEMS_PER_PAGE),
+            breedsFiltered: weightMax,
+            currentPage: 0,
+            filters: true,
+          };
+        default:
+          return state
       }
 
     case ORDER_ALP:
       switch (action.payload) {
         case "AZ":
-          let asc = [...state.allBreedsBackUp].sort((prev, next) => {
-            if (prev.name.toLowerCase() > next.name.toLowerCase()) return 1; //ordeno en base al nombre el obj allBreedsBackUp
-            if (prev.name.toLowerCase() < next.name.toLowerCase()) return -1;
-            return 0;
-          });
-          return {
-            ...state,
-            allBreeds: [...asc].splice(0, ITEMS_PER_PAGE),
-            allBreedsBackUp: asc,
-            currentPage: 0,
-          };
+          let asc = [];
+          if(state.filters){
+            asc = [...state.breedsFiltered].sort((prev, next) => {
+              if (prev.name.toLowerCase() > next.name.toLowerCase()) return 1; //ordeno en base al nombre el obj allBreedsBackUp
+              if (prev.name.toLowerCase() < next.name.toLowerCase()) return -1;
+              return 0;
+            });
+            return {
+              ...state,
+              allBreeds: [...asc].splice(0, ITEMS_PER_PAGE),
+              breedsFiltered: asc,
+              currentPage: 0,
+            };
+          }else {
+            asc = [...state.allBreedsBackUp].sort((prev, next) => {
+              if (prev.name.toLowerCase() > next.name.toLowerCase()) return 1; //ordeno en base al nombre el obj allBreedsBackUp
+              if (prev.name.toLowerCase() < next.name.toLowerCase()) return -1;
+              return 0;
+            });
+            return {
+              ...state,
+              allBreeds: [...asc].splice(0, ITEMS_PER_PAGE),
+              allBreedsBackUp: asc,
+              currentPage: 0,
+            };
+          }
         case "ZA":
-          let des = [...state.allBreedsBackUp].sort((prev, next) => {
-            if (prev.name.toLowerCase() > next.name.toLowerCase()) return -1; //ordeno en base al nombre el obj allBreedsBackUp
-            if (prev.name.toLowerCase() < next.name.toLowerCase()) return 1;
-            return 0;
-          });
-          return {
-            ...state,
-            allBreeds: [...des].splice(0, ITEMS_PER_PAGE),
-            allBreedsBackUp: des,
-            currentPage: 0,
-          };
+          let des = [];
+          if(state.filters){
+            des = [...state.breedsFiltered].sort((prev, next) => {
+              if (prev.name.toLowerCase() > next.name.toLowerCase()) return -1; //ordeno en base al nombre el obj allBreedsBackUp
+              if (prev.name.toLowerCase() < next.name.toLowerCase()) return 1;
+              return 0;
+            });
+            return {
+              ...state,
+              allBreeds: [...des].splice(0, ITEMS_PER_PAGE),
+              breedsFiltered: des,
+              currentPage: 0,
+            };
+          } else {
+
+            des = [...state.allBreedsBackUp].sort((prev, next) => {
+              if (prev.name.toLowerCase() > next.name.toLowerCase()) return -1; //ordeno en base al nombre el obj allBreedsBackUp
+              if (prev.name.toLowerCase() < next.name.toLowerCase()) return 1;
+              return 0;
+            });
+            return {
+              ...state,
+              allBreeds: [...des].splice(0, ITEMS_PER_PAGE),
+              allBreedsBackUp: des,
+              currentPage: 0,
+            };
+          }
       }
       return {
         ...state,
@@ -116,11 +150,21 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         filterBySource: action.payload,
       };
-    case CLEAR_STATE: //limpiamos el estado de la detail
+    case CLEAR_STATE: 
       return {
         ...state,
         dogsDetail: [],
       };
+
+    case RESET:
+      return {
+        ...state,
+        allBreeds: [...state.allBreedsBackUp].splice(0, ITEMS_PER_PAGE),
+        currentPage: 0,
+        filters: false,
+        breedsFiltered: [],
+      };
+
     case PAGINATE:
       const next_page = state.currentPage + 1;
       const prev_page = state.currentPage - 1;
@@ -129,18 +173,22 @@ const rootReducer = (state = initialState, action) => {
           ? next_page * ITEMS_PER_PAGE
           : prev_page * ITEMS_PER_PAGE;
 
-          if(state.filters){
-            if (action.payload === "next" && firstIndex >= state.breedsFiltered.length) return state;
-            else if (action.payload === "prev" && prev_page < 0) return state;
-            return {
-              ...state,
-              allBreeds: [...state.breedsFiltered].splice(
-                firstIndex,
-                ITEMS_PER_PAGE
-              ), //desde el 1er indice, que renderices la cant indicada 8
-              currentPage: action.payload === "next" ? next_page : prev_page,
-            };
-          }
+      if (state.filters) {
+        if (
+          action.payload === "next" &&
+          firstIndex >= state.breedsFiltered.length
+        )
+          return state;
+        else if (action.payload === "prev" && prev_page < 0) return state;
+        return {
+          ...state,
+          allBreeds: [...state.breedsFiltered].splice(
+            firstIndex,
+            ITEMS_PER_PAGE
+          ), //desde el 1er indice, que renderices la cant indicada 8
+          currentPage: action.payload === "next" ? next_page : prev_page,
+        };
+      }
 
       if (
         action.payload === "next" &&

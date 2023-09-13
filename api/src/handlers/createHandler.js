@@ -1,5 +1,5 @@
 const createDog = require("../controllers/createController");
-const { validateDogCreationFields } = require("../utils/validations");
+// const { validateDogCreationFields } = require("../utils/validations");
 
 
 const postDog = async (req, res) => {
@@ -15,8 +15,9 @@ const postDog = async (req, res) => {
     breed_group,
     temperaments
   } = req.body;
-
-  validateDogCreationFields(req.body);
+  
+  
+  // validateDogCreationFields(req.body);
   try {
       const response = await createDog (name, image, minHeight, maxHeight, minWeight, maxWeight, minLifeSpan, maxLifeSpan, breed_group, temperaments);
 

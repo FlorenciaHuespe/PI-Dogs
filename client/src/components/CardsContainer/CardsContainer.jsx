@@ -1,9 +1,9 @@
 import style from "./Cards.module.css";
 import Card from "../Card/Card";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 
 const CardsContainer = ({info}) => {
-  const allBreeds = useSelector((state) => state.allBreeds);
+  // const allBreeds = useSelector((state) => state.allBreeds);
 
   return (
     <div className={style.cardsContainer}>

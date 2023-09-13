@@ -35,6 +35,7 @@
     height: 1.5em;
     margin-left: 0.5em;
   }
+  
   .page{
     font-family: "PumpOpti";
     outline: none;
@@ -45,6 +46,81 @@
     box-shadow: 0 0 0 4px rgb(220, 243, 247), 2px 2px 4px 2px rgba(0, 0, 0, 0.5);
     transition: .1s ease-in-out, .4s color;
   }
-  .button{
-    background-color:rgb(26, 43, 194) 
-  }
+  .button{  
+    font-family: "PumpOpti"; 
+    color: rgb(8, 8, 8);
+    outline: none;
+    padding: 0.5em;
+    border: 2px solid #1595cb;
+    border-radius: 15px;
+    background-color: rgba(142, 230, 246, 0.505);
+    box-shadow: 0 0 0 4px rgb(220, 243, 247), 2px 2px 4px 2px rgba(0, 0, 0, 0.5);
+    transition: .1s ease-in-out, .4s color;
+    cursor: pointer;
+}
+
+.reset{
+  background-color: rgba(212, 22, 22, 0.678);
+  font-size: 17px;
+  color: rgb(226, 219, 219);
+  border-radius: 10px;
+  margin-left: 10px;
+  margin-left: 40px;
+  height:40px;
+  cursor: pointer;
+}
+
+.option {
+  font-family: "PumpOpti";
+  font-size: 16px; /* Ajusta el tamaño de fuente según tu preferencia */
+  border-radius: 15px;
+  background-color: rgba(142, 230, 246, 0.505);
+  cursor: pointer;
+  padding: 0.5em 1em; /* Ajusta el relleno para controlar el tamaño vertical y horizontal */
+}
+
+/* Estilos para alinear el texto en la parte superior de los elementos <option> */
+select {
+  vertical-align: top;
+}
+
+.page {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between; /* Alinear a la izquierda y derecha */
+  gap: 10px;
+  margin: 0 -3px; /* Ajusta el valor negativo para reducir la separación */
+}
+
+.buttonP {
+  font-size: 10px;
+  margin: 10px;
+  cursor: pointer;
+  font-family: "PumpOpti";
+  outline: none;
+  padding: 1.5em;
+  border: 2px dashed #1595cb;
+  border-radius: 15px;
+  background-color: whitesmoke;
+  box-shadow: 0 0 0 4px rgb(220, 243, 247), 2px 2px 4px 2px rgba(0, 0, 0, 0.5);
+  transition: .1s ease-in-out, .4s color;
+}
+
+.btn {
+  border-radius: 15px;
+  font-size: 13px;
+  background-color: rgba(142, 230, 246, 0.505);
+  cursor: pointer;
+  padding: 1.2em;
+  align-self: flex-start; /* Alinear a la izquierda */
+  margin: 5px;
+}
+
+.option {
+  font-family: "PumpOpti";
+  font-size: 15px;
+  border-radius: 15px;
+  background-color: rgba(142, 230, 246, 0.505);
+  cursor: pointer;
+  align-self: flex-end; /* Alinear a la derecha */
+}

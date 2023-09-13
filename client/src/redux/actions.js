@@ -3,7 +3,7 @@ import axios from "axios";
 export const GET_BREEDS = "GET_BREEDS"; //
 export const GET_BREED_BY_ID = "GET_BREED_BY_ID"; //
 export const GET_BREEDS_BY_NAME = "GET_BREEDS_BY_NAME";
-export const GET_TEMPERAMENTS = "GET_TEMPERAMENTS";
+export const GET_TEMPERAMENTS = "GET_TEMPERAMENTS"; //
 export const FILTER_TEMPERAMENTS = "FILTER_TEMPERAMENTS";
 export const ORDER_WEIGHT = "ORDER_WEIGHT"; //
 export const ORDER_ALP = "ORDER_ALP"; //
@@ -13,25 +13,33 @@ export const PAGINATE = "PAGINATE"; //
 export const RESET = "RESET"; //
 
 export function postBreed(state) {
+  const endpoint = "http://localhost:3001/dogs";
   return async function (dispatch) {
     try {
-      await axios.post("http://localhost:3001/dogs", state);
-      alert("Raza creada exitosamente");
+      const fromAPI = await axios.get(endpoint);
+      const breeds = fromAPI.data;
+      dispatch({ type: GET_BREEDS, payload: breeds });
     } catch (error) {
-      alert(error.response.data.error);
+      console.log(error.message);
     }
   };
 }
 
 export const getBreeds = () => {
-  //action creator
   return async function (dispatch) {
-    //retorna una funcion
-    const apiData = await axios.get("http://localhost:3001/dogs"); // hace una peticion
-    const allBreeds = apiData.data;
-    dispatch({ type: GET_BREEDS, payload: allBreeds }); //despacha la action
+    try {
+      const apiData = await axios.get("http://localhost:3001/dogs");
+      const allBreeds = apiData.data;
+
+      console.log("Datos de todas las razas cargados:", allBreeds); // Agrega este console.log
+
+      dispatch({ type: GET_BREEDS, payload: allBreeds });
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 };
+
 
 export const getBreedById = (id) => {
   return async function (dispatch) {
@@ -39,10 +47,10 @@ export const getBreedById = (id) => {
       const response = await axios.get(`http://localhost:3001/dogs/${id}`);
       console.log(response.data); // Agregar esta línea
       dispatch({
-        type: GET_BREED_BY_ID, 
-        payload: response.data
+        type: GET_BREED_BY_ID,
+        payload: response.data,
       });
-    } catch(error){
+    } catch (error) {
       console.log(error);
     }
   };
@@ -54,32 +62,36 @@ export const getBreedsByName = (name) => {
       if (name.trim() === "") {
         return;
       }
-
-      const apiData = await axios.get(`http://localhost:3001/dogs?name=${name}`);
+      const apiData = await axios.get(
+        `http://localhost:3001/dogs?name=${name}`
+      );
       const breedByName = apiData.data;
       dispatch({ type: GET_BREEDS_BY_NAME, payload: breedByName });
-    } catch (error) {
-    }
+    } catch (error) {}
   };
 };
 
-
 export const getTemperaments = () => {
   return async function (dispatch) {
-    try{
-    const apiData = await axios.get("http://localhost:3001/temperaments");
-    const temperaments = apiData.data;
-    dispatch({ type: GET_TEMPERAMENTS, payload: temperaments });
-    } catch (error){
+    try {
+      const apiData = await axios.get("http://localhost:3001/temperaments");
+      const temperaments = apiData.data;
+      dispatch({ type: GET_TEMPERAMENTS, payload: temperaments });
+    } catch (error) {
       console.log(error);
     }
   };
 };
 
-export const filteredTemperaments = (value) => ({
-  type: FILTER_TEMPERAMENTS,
-  payload: value,
-});
+export const filteredTemperaments = (value) => {
+  return async function (dispatch) {
+    try {
+      dispatch({ type: FILTER_TEMPERAMENTS, payload: value });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+};
 
 export const orderWeight = (order) => ({
   type: ORDER_WEIGHT,
@@ -91,32 +103,38 @@ export const orderAlphabetically = (order) => ({
   payload: order,
 });
 
-export const filterBySource = (value) => ({
-  type: FILTER_BY_SOURCE,
-  payload: value,
-});
-// export const filterBySource = () => ({
-//   dispatch({type: FILTER_BY_SOURCE})
+export const filterBySource = (source) => (dispatch, getState) => {
+  const { allBreedsBackUp } = getState();
+
+  const filteredBreeds = allBreedsBackUp.filter((breed) =>
+    source === "api" ? !breed.db : breed.db
+  );
+
+  dispatch({
+    type: FILTER_BY_SOURCE,
+    payload: filteredBreeds,
+  });
+};
 
 export const cleanDetails = () => {
   return { type: CLEAR_STATE };
 };
 
 export const resetBreeds = () => {
-  return function (dispatch){
+  return function (dispatch) {
     dispatch({
       type: RESET,
-    })
-}
-}
+    });
+  };
+};
 
-export function page (order) {
-  return function (dispatch){
+export function page(order) {
+  return function (dispatch) {
     dispatch({
       type: PAGINATE,
-      payload: order
-    })
-}
+      payload: order,
+    });
+  };
 }
 
 //promesa
@@ -128,5 +146,3 @@ export function page (order) {
 // }
 
 // }
-
-

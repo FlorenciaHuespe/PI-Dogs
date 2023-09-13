@@ -13,7 +13,7 @@ import {
 } from "./actions";
 
 const initialState = {
-  allBreeds: [], 
+  allBreeds: [],
   allBreedsBackUp: [],
   breedsFiltered: [],
   filters: false,
@@ -30,8 +30,8 @@ const rootReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_BREEDS:
       return {
-        ...state, 
-        allBreeds: [...action.payload].splice(0, ITEMS_PER_PAGE), 
+        ...state,
+        allBreeds: [...action.payload].splice(0, ITEMS_PER_PAGE),
         allBreedsBackUp: action.payload,
       };
     case GET_BREED_BY_ID:
@@ -50,11 +50,25 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         temperaments: action.payload,
       };
-    case FILTER_TEMPERAMENTS:
-      return {
-        ...state,
-        filterTemp: action.payload,
-      };
+      case FILTER_TEMPERAMENTS:
+        const selectedTemperament = action.payload;
+        let filteredBreedsByTemperament = [];
+      
+        for (const breed of state.allBreedsBackUp) {
+          if (breed.temperaments && breed.temperaments.includes(selectedTemperament)) {
+            filteredBreedsByTemperament.push(breed);
+          }
+        }
+      
+        return {
+          ...state,
+          allBreeds: [...filteredBreedsByTemperament].splice(0, ITEMS_PER_PAGE),
+          breedsFiltered: filteredBreedsByTemperament,
+          currentPage: 0,
+          filters: true,
+        };
+      
+  
     case ORDER_WEIGHT:
       switch (action.payload) {
         case "weightMin":
@@ -80,14 +94,14 @@ const rootReducer = (state = initialState, action) => {
             filters: true,
           };
         default:
-          return state
+          return state;
       }
 
     case ORDER_ALP:
       switch (action.payload) {
         case "AZ":
           let asc = [];
-          if(state.filters){
+          if (state.filters) {
             asc = [...state.breedsFiltered].sort((prev, next) => {
               if (prev.name.toLowerCase() > next.name.toLowerCase()) return 1; //ordeno en base al nombre el obj allBreedsBackUp
               if (prev.name.toLowerCase() < next.name.toLowerCase()) return -1;
@@ -99,7 +113,7 @@ const rootReducer = (state = initialState, action) => {
               breedsFiltered: asc,
               currentPage: 0,
             };
-          }else {
+          } else {
             asc = [...state.allBreedsBackUp].sort((prev, next) => {
               if (prev.name.toLowerCase() > next.name.toLowerCase()) return 1; //ordeno en base al nombre el obj allBreedsBackUp
               if (prev.name.toLowerCase() < next.name.toLowerCase()) return -1;
@@ -114,7 +128,7 @@ const rootReducer = (state = initialState, action) => {
           }
         case "ZA":
           let des = [];
-          if(state.filters){
+          if (state.filters) {
             des = [...state.breedsFiltered].sort((prev, next) => {
               if (prev.name.toLowerCase() > next.name.toLowerCase()) return -1; //ordeno en base al nombre el obj allBreedsBackUp
               if (prev.name.toLowerCase() < next.name.toLowerCase()) return 1;
@@ -127,7 +141,6 @@ const rootReducer = (state = initialState, action) => {
               currentPage: 0,
             };
           } else {
-
             des = [...state.allBreedsBackUp].sort((prev, next) => {
               if (prev.name.toLowerCase() > next.name.toLowerCase()) return -1; //ordeno en base al nombre el obj allBreedsBackUp
               if (prev.name.toLowerCase() < next.name.toLowerCase()) return 1;
@@ -145,12 +158,17 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         orderByAlp: action.payload,
       };
-    case FILTER_BY_SOURCE:
-      return {
-        ...state,
-        filterBySource: action.payload,
-      };
-    case CLEAR_STATE: 
+      case FILTER_BY_SOURCE:
+        return {
+          ...state,
+          allBreeds: action.payload,
+          // allBreeds: [...state.allBreedsBackUp].splice(0, ITEMS_PER_PAGE),
+          // breedsFiltered: [],
+          currentPage: 0,
+          filters: true, 
+        };
+
+    case CLEAR_STATE:
       return {
         ...state,
         dogsDetail: [],

@@ -9,10 +9,9 @@ const Form = () => {
 
   useEffect(() => {
     dispatch(getTemperaments());
-  }, []);
+  }, [dispatch]);
 
-  const temperaments = useSelector((state) => state.temperaments);
-  console.log(temperaments);
+  const temperaments = useSelector(state => state.temperaments);
 
   const [form, setForm] = useState({
     name: "",
@@ -42,13 +41,25 @@ const Form = () => {
 
   const [showAlert, setShowAlert] = useState(false); // Estado para mostrar u ocultar la alerta
   const [alertTimeout, setAlertTimeout] = useState(null); // Estado para ocultar la alerta
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth); //Estado para ocultar la Imagen segun el ancho de la pantalla
+  
+const handleDelete = (event) =>{
+  setForm({ 
+    ...form, 
+    [event.target.name]: [...form[event.target.name].filter(t=> t!==event.target.id)]
+  })
+}
 
-  // para saber que propiedad modifica el estado
   const changeHandler = (event) => {
-    validate({ ...form, [event.target.name]: event.target.value });
-
+if(event.target.name==="temperaments"){
+  if(form.temperaments.includes(event.target.value)) return
+  setForm({ 
+    ...form, 
+    [event.target.name]: [...form[event.target.name], event.target.value] 
+  });
+} else {
     setForm({ ...form, [event.target.name]: event.target.value });
+}
+    validate({ ...form, [event.target.name]: event.target.value });
   };
 
   // Validar el formulario
@@ -120,87 +131,45 @@ const Form = () => {
   };
 
   const submitHandler = (event) => {
+  
     event.preventDefault();
+ 
     dispatch(postBreed(form));
+    
 
     const response = axios
-      .post("http://localhost:3001/dogs", {
-        ...form,
-        temperaments: form.temperaments.map((temp) => temp.id),
-      })
-      .then((res) => {
-        setShowAlert(true); // Mostrar la alerta si la respuesta es exitosa
-        setForm({
-          name: "",
-          image: "",
-          minHeight: "",
-          maxHeight: "",
-          minWeight: "",
-          maxWeight: "",
-          minLifeSpan: "",
-          maxLifeSpan: "",
-          temperaments: [],
-          breed_group: "",
-        }); // Limpiar el formulario después de enviarlo
-      })
-      .catch((error) => {
-        if (error.response && error.response.status === 400) {
-          alert("Error: " + error.response.data.error); // Mostrar un mensaje de alerta si el error es un error 400
-        } else {
-          console.log(error);
-        }
-      });
-  };
-
-  const selectHandler = (event) => {
-    // console.log(event.target.value);
-
-    if (event.target.name === "temperaments") {
-      //si el evento esta ocurriendo en el input de temperaments
-      if (form.temperaments.includes(event.target.value)) return; // evitamos duplicados
-      setForm({
-        //setear el estado
-        ...form,
-        [event.target.name]: [...form[event.target.name], event.target.value], //...form --- evitamos que se pide el estado
-      });
-    }
-
-    //     &&
-    //     !form.temperaments.some((temp) => temp.name === event.target.value)
-    //   ) {
-    //     const selectedTemperamentName = event.target.value;
-    //     const selectedTemperamentID =
-    //       event.target.options[event.target.selectedIndex].id;
-    //     const newState = { ...form };
-
-    //     newState.temperaments = [
-    //       ...newState.temperaments,
-    //       { id: selectedTemperamentID, name: selectedTemperamentName },
-    //     ];
-    //     setErrors(validate(newState));
-    //     setForm(newState);
-    //   }
-  };
-
-  const deleteTemperament = (temperament) => {
-    let newTemps = form.temperaments.filter((temp) => temp !== temperament);
-    setForm({
+    .post("http://localhost:3001/dogs", {
       ...form,
-      temperaments: newTemps,
+      temperaments: form.temperaments.map((temp) => temp.id),
+    })
+    .then((res) => {
+      setShowAlert(true);
+      
+      // Aquí deberías asegurarte de que los valores del formulario se establezcan en su estado inicial
+      setForm({
+        name: "",
+        image: "",
+        minHeight: "",
+        maxHeight: "",
+        minWeight: "",
+        maxWeight: "",
+        minLifeSpan: "",
+        maxLifeSpan: "",
+        temperaments: [],
+        breed_group: "",
+      });
+      
+    })
+    .catch((error) => {
+      if (error.response && error.response.status === 400) {
+        alert("Error: " + error.response.data.error);
+      } else {
+        console.log(error);
+      }
     });
-    setErrors(
-      validate({
-        ...form,
-        temperaments: newTemps,
-      })
-    );
+   
   };
 
-  const updateWindowWidth = () => {
-    setWindowWidth(window.innerWidth);
-  };
-
-  //USE-EFFECT
 
   useEffect(() => {
     // Ocultar el alerta después de 3 segundos
@@ -217,15 +186,6 @@ const Form = () => {
     };
   }, [showAlert]);
 
-  useEffect(() => {
-    // Agregar un listener para actualizar el estado cuando cambie el ancho de la ventana
-    window.addEventListener("resize", updateWindowWidth);
-
-    // Limpieza del listener cuando el componente se desmonte
-    return () => {
-      window.removeEventListener("resize", updateWindowWidth);
-    };
-  }, []);
 
   return (
     <div className={style.container}>
@@ -268,8 +228,6 @@ const Form = () => {
               value={form.minHeight}
               onChange={changeHandler}
               name="minHeight"
-              min="1"
-              max="99"
               placeholder="Insert Min Height"
               className={style.input}
             />
@@ -284,8 +242,6 @@ const Form = () => {
               value={form.maxHeight}
               onChange={changeHandler}
               name="maxHeight"
-              min="1"
-              max="99"
               placeholder="Insert Max Height"
               className={style.input}
             />
@@ -300,8 +256,6 @@ const Form = () => {
               value={form.minWeight}
               onChange={changeHandler}
               name="minWeight"
-              min="1"
-              max="99"
               placeholder="Insert Min Weight"
               className={style.input}
             />
@@ -316,8 +270,6 @@ const Form = () => {
               value={form.maxWeight}
               onChange={changeHandler}
               name="maxWeight"
-              min="1"
-              max="99"
               placeholder="Insert Max Weight"
               className={style.input}
             />
@@ -332,8 +284,6 @@ const Form = () => {
               value={form.minLifeSpan}
               onChange={changeHandler}
               name="minLifeSpan"
-              min="1"
-              max="99"
               placeholder="Insert Min LifeSpan"
               className={style.input}
             />
@@ -348,8 +298,6 @@ const Form = () => {
               value={form.maxLifeSpan}
               onChange={changeHandler}
               name="maxLifeSpan"
-              min="1"
-              max="99"
               placeholder="Insert Max LifeSpan"
               className={style.input}
             />
@@ -372,49 +320,17 @@ const Form = () => {
             )}
           </div>
           <div>
-            <label>Temperaments: </label>
-            <select
-              name="temperaments"
-              onChange={selectHandler}
-              defaultValue="Select one or more temperaments"
-              className={style.option}
-            >
-              {temperaments?.map((t) => (
-                <option key={t} value={t}>{t}</option>
-              ))}
+            <label>Temperaments:</label>
+            <select onChange={changeHandler} name="temperaments">
+           {temperaments.map((t)=> <option className={style.option} value={t} key={t}>{t}</option> )}
             </select>
-            <div className="for-info.cont">
-              {form.temperaments.map((tem) => (
-                <div className="form-label">
-                  <p>{tem}</p>
-                </div>
-                
-              ))}
-            </div>
-            {errors.temperaments && (
-              <p className={style.errors}>{errors.temperaments}</p>
-            )}
           </div>
-
-          <br />
-
-          <h4>Selected Temperaments:</h4>
           <div>
-            {form.temperaments &&
-              form.temperaments.map((temperament) => (
-                <button
-                  key={temperament.id}
-                  onClick={() => deleteTemperament(temperament)}
-                  className={style.selectedTemp}
-                >
-                  {temperament.name}
-                </button>
-              ))}
+           { form.temperaments.map((t) => <div className={style.option}><label>{t}</label> <button name="temperaments" id={t} onClick={handleDelete}>X</button>
+           </div>)}
           </div>
 
-          <br />
-
-          <button
+             <button
             type="submit"
             disabled={
               !form.name ||
@@ -433,10 +349,7 @@ const Form = () => {
           </button>
         </div>
       </form>
-      <div
-        className={style.imageContainer}
-        style={{ display: windowWidth <= 768 ? "none" : "flex" }}
-      ></div>
+     
     </div>
   );
 };
